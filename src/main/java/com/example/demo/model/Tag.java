@@ -1,15 +1,28 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
+@Table(name = "tag")
 public class Tag {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "name")
     private String name;
-    private Set<Product> products;
 
-    protected Tag(){}
+    @ManyToMany(mappedBy = "tags")
+    @JsonBackReference
+    Set<Product> products;
 
-    public Tag(String name){
+    protected Tag() {}
+
+    public Tag(String name) {
         this.name = name;
     }
 
@@ -35,5 +48,10 @@ public class Tag {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Tag[id=%d, name='%s']", id, name);
     }
 }

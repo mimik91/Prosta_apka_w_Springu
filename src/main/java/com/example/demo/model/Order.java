@@ -1,15 +1,26 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private LocalDate date;
-    private Set<ProductBascet> productBascets;
 
-    protected Order() {
-    }
+    @Column(name = "order_date")
+    private LocalDate date;
+
+    @OneToMany(mappedBy = "order")
+    @JsonManagedReference
+    private Set<ProductBasket> productBaskets;
+
+    protected Order() {}
 
     public Order(LocalDate date) {
         this.date = date;
@@ -31,11 +42,16 @@ public class Order {
         this.date = date;
     }
 
-    public Set<ProductBascet> getProductBascets() {
-        return productBascets;
+    public Set<ProductBasket> getProductBaskets() {
+        return productBaskets;
     }
 
-    public void setProductBascets(Set<ProductBascet> productBascets) {
-        this.productBascets = productBascets;
+    public void setProductBaskets(Set<ProductBasket> productBaskets) {
+        this.productBaskets = productBaskets;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Order[id=%d, date='%s']", id, date);
     }
 }

@@ -1,4 +1,7 @@
 package com.example.demo.repository;
 
-public interface ProductBascetRepository {
+import com.example.demo.model.ProductBasket;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductBascetRepository extends JpaRepository<ProductBasket, Long> {
 }
